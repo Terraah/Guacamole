@@ -1,3 +1,5 @@
+provider "null" {}
+
 resource "proxmox_vm_qemu" "guaca" {
   name        = "guacamole"
   agent       = 1
