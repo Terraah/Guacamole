@@ -1,4 +1,35 @@
-provider "null" {}
+terraform {
+  required_providers {
+    proxmox = {
+      source  = "Telmate/proxmox"
+      version = "~> 2.9.11"
+    }
+  }
+}
+
+provider "proxmox" {
+  pm_api_url      = "https://your-proxmox-server:8006/api2/json"
+  pm_user         = "root@pve"
+  pm_password     = "azerty"
+  pm_tls_insecure = true
+}
+
+variable "ci_user" {
+  description = "Nom d'utilisateur pour Cloud-Init"
+  type        = string
+  default     = "bryan"
+}
+
+variable "ci_mdp" {
+  description = "Mot de passe pour Cloud-Init"
+  type        = string
+  sensitive   = true
+}
+
+variable "ssh_key_pub" {
+  description = "Clé publique SSH pour l'accès"
+  type        = string
+}
 
 resource "proxmox_vm_qemu" "guaca" {
   name        = "guacamole"
