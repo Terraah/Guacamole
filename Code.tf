@@ -60,6 +60,4 @@ resource "proxmox_vm_qemu" "guaca" {
 
   searchdomain = "mynet.net"
   nameserver   = "172.16.20.29"
-
-  # Suppression de depends_on sur proxmox_vm_qemu.reverse qui n'existe pas
 }
