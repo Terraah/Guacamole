@@ -42,13 +42,13 @@ resource "proxmox_vm_qemu" "guaca" {
 
   # Configuration réseau
   network {
-    model   = "virtio"  # Meilleur que e1000 pour les perfs
-    bridge  = "vmbr0"   # LAN
+    model   = "virtio"
+    bridge  = "vmbr0"
   }
 
   network {
     model   = "virtio"
-    bridge  = "vmbr2"   # VLAN20 - Service Interne
+    bridge  = "vmbr2"
     tag     = "20"
   }
 
@@ -62,6 +62,17 @@ resource "proxmox_vm_qemu" "guaca" {
   
   searchdomain = "mynet.net"
   nameserver   = "172.16.20.29"
+
+  # Script de provisionnement
+  provisioner "remote-exec" {
+    inline = [
+      "#!/bin/bash",
+      "apt update && apt install -y git docker.io docker-compose",
+      "systemctl enable --now docker",
+      "git clone https://github.com/TON_GITHUB/guacamole-setup /opt/guacamole",
+      "cd /opt/guacamole && docker-compose up -d"
+    ]
+  }
 
   depends_on = [proxmox_vm_qemu.reverse]
 }
