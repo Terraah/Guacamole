@@ -52,7 +52,7 @@ resource "proxmox_vm_qemu" "guaca" {
   bootdisk    = "scsi0"
 
   # Disque principal
-  disks {
+  disk {
     scsi {
       scsi0 {
         disk {
